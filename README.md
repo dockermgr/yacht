@@ -1,6 +1,6 @@
 # Welcome to dockermgr yacht installer 👋
   
-## Web interface for managing docker containers with an emphasis on templating
+## Web interface for managing __sudo dockercontainers with an emphasis on templating
   
 ### Requires scripts to be installed
 

@@ -17,7 +17,7 @@ if [[ "$1" == "--debug" ]]; then shift 1 && set -xo pipefail && export SCRIPT_OP
 # @Copyright     : Copyright: (c) 2021 Jason Hempstead, Casjays Developments
 # @Created       : Sunday, Aug 29, 2021 22:56 EDT
 # @File          : install.sh
-# @Description   : Web interface for managing docker containers with an emphasis on templating
+# @Description   : Web interface for managing __sudo dockercontainers with an emphasis on templating
 # @TODO          :
 # @Other         :
 # @Resource      :
@@ -102,10 +102,10 @@ dockermgr_run_init
 # Ensure directories exist
 ensure_dirs
 ensure_perms
-__sudo mkdir -p "$DATADIR/data"
-__sudo mkdir -p "$DATADIR/config"
-__sudo chmod -Rf 777 "$APPDIR"
-find "$DATADIR" -name ".gitkeep" -type f -exec rm -rf {} \; &>/dev/null
+mkdir -p "$DATADIR/data"
+mkdir -p "$DATADIR/config"
+chmod -Rf 777 "$APPDIR"
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Clone/update the repo
 if am_i_online; then
@@ -126,22 +126,23 @@ if [[ -d "$INSTDIR/dataDir" ]] && [[ ! -f "$DATADIR/.installed" ]]; then
   printf_blue "Copying files to $DATADIR"
   cp -Rf "$INSTDIR/dataDir/." "$DATADIR/"
   touch "$DATADIR/.installed"
+  find "$DATADIR" -name ".gitkeep" -type f -exec rm -rf {} \; &>/dev/null
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Main progam
 if [ -f "$INSTDIR/docker-compose.yml" ] && cmd_exists docker-compose; then
-  printf_blue "Installing containers using docker compose"
+  printf_blue "Installing containers using dockercompose"
   sed -i "s|REPLACE_DATADIR|$DATADIR" "$INSTDIR/docker-compose.yml"
   if cd "$INSTDIR"; then
     __sudo docker-compose pull &>/dev/null
     __sudo docker-compose up -d &>/dev/null
   fi
 else
-  if docker ps -a | grep -qsw "$APPNAME"; then
+  if dockerps -a | grep -qsw "$APPNAME"; then
     __sudo docker stop "$APPNAME" &>/dev/null
     __sudo docker rm -f "$APPNAME" &>/dev/null
   fi
-  printf_cyan "Setting up the docker container"
+  printf_cyan "Setting up the __sudo dockercontainer"
   __sudo docker run -d \
     --name="$APPNAME" \
     --hostname "$SERVER_HOST" \
@@ -180,7 +181,7 @@ execute "run_postinst" "Running post install scripts"
 dockermgr_install_version
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # run exit function
-if docker ps -a | grep -qs "$APPNAME"; then
+if dockerps -a | grep -qs "$APPNAME"; then
   printf_blue "DATADIR in $DATADIR"
   printf_cyan "Installed to $INSTDIR"
   [[ -n "$SERVER_PORT" ]] && printf_blue "Service is running on: $SERVER_IP:$SERVER_PORT"
