@@ -17,7 +17,7 @@ if [[ "$1" == "--debug" ]]; then shift 1 && set -xo pipefail && export SCRIPT_OP
 # @Copyright     : Copyright: (c) 2021 Jason Hempstead, Casjays Developments
 # @Created       : Sunday, Aug 29, 2021 22:56 EDT
 # @File          : install.sh
-# @Description   :
+# @Description   : Web interface for managing docker containers with an emphasis on templating
 # @TODO          :
 # @Other         :
 # @Resource      :
@@ -65,7 +65,7 @@ REPORAW="$REPO/raw/$REPO_BRANCH"
 APPVERSION="$(__appversion "$REPORAW/version.txt")"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Setup plugins
-HUB_URL="template/template"
+HUB_URL="selfhostedpro/yacht"
 SERVER_IP="${CURRIP4:-127.0.0.1}"
 SERVER_LISTEN="${SERVER_LISTEN:-$SERVER_IP}"
 SERVER_HOST="$(hostname -f 2>/dev/null || echo localhost)"
@@ -105,6 +105,7 @@ ensure_perms
 __sudo mkdir -p "$DATADIR/data"
 __sudo mkdir -p "$DATADIR/config"
 __sudo chmod -Rf 777 "$APPDIR"
+rm -Rf "$DATADIR/dataDir"/*/.gitkeep &>/dev/null
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Clone/update the repo
 if am_i_online; then
@@ -183,7 +184,6 @@ if docker ps -a | grep -qs "$APPNAME"; then
   printf_cyan "Installed to $INSTDIR"
   printf_blue "Service is running on: $SERVER_IP:$SERVER_PORT"
   printf_blue "and should be available at: $SERVER_HOST:$SERVER_PORT"
-  rm -Rf "$DATADIR/dataDir"/*/.gitkeep &>/dev/null
 else
   printf_error "Something seems to have gone wrong with the install"
 fi
