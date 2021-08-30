@@ -148,6 +148,7 @@ else
     --restart=unless-stopped \
     --privileged \
     -e TZ="$SERVER_TIMEZONE" \
+    -v /var/run/docker.sock:/var/run/docker.sock \
     -v "$DATADIR/data":/data \
     -v "$DATADIR/config":/config \
     -p $SERVER_LISTEN:$SERVER_PORT:$SERVER_PORT_INT \
@@ -183,6 +184,7 @@ if docker ps -a | grep -qs "$APPNAME"; then
   printf_blue "DATADIR in $DATADIR"
   printf_cyan "Installed to $INSTDIR"
   [[ -n "$SERVER_PORT" ]] && printf_blue "Service is running on: $SERVER_IP:$SERVER_PORT"
+  [[ -n "$SERVER_PORT" ]] && printf_yellow "Default login is: admin@yacht.local - pass"
   [[ -n "$SERVER_PORT" ]] && printf_blue "and should be available at: $SERVER_HOST:$SERVER_PORT"
   [[ -z "$SERVER_PORT" ]] && printf_yellow "This container does not have a web interface"
 else
