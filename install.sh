@@ -174,7 +174,7 @@ fi
 run_postinst() {
   dockermgr_run_post
   if grep -qv $APPNAME /etc/hosts; then
-    echo "$SERVER_LISTEN     $APPNAME.local $SERVER_HOST" | sudo tee -a /etc/hosts &>/dev/null
+    echo "$SERVER_LISTEN     $APPNAME.local" | sudo tee -a /etc/hosts &>/dev/null
   fi
 }
 #
