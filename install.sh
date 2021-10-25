@@ -66,7 +66,7 @@ APPVERSION="$(__appversion "$REPORAW/version.txt")"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Setup plugins
 HUB_URL="selfhostedpro/yacht"
-SERVER_IP="${CURRIP4:-127.0.0.1}"
+SERVER_IP="${CURRIP4:-127.0.0.2}"
 SERVER_LISTEN="${SERVER_LISTEN:-$SERVER_IP}"
 SERVER_HOST="$(hostname -f 2>/dev/null || echo localhost)"
 SERVER_PORT="${SERVER_PORT:-14053}"
@@ -173,6 +173,9 @@ fi
 # run post install scripts
 run_postinst() {
   dockermgr_run_post
+  if grep -qv $APPNAME /etc/hosts; then
+    echo "$SERVER_LISTEN     $APPNAME.local $SERVER_HOST" | sudo tee -a /etc/hosts &>/dev/null
+  fi
 }
 #
 execute "run_postinst" "Running post install scripts"
