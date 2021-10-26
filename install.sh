@@ -17,7 +17,7 @@ if [[ "$1" == "--debug" ]]; then shift 1 && set -xo pipefail && export SCRIPT_OP
 # @Copyright     : Copyright: (c) 2021 Jason Hempstead, Casjays Developments
 # @Created       : Sunday, Aug 29, 2021 22:56 EDT
 # @File          : install.sh
-# @Description   : Web interface for managing __sudo dockercontainers with an emphasis on templating
+# @Description   : Web interface for managing docker containers with an emphasis on templating
 # @TODO          :
 # @Other         :
 # @Resource      :
@@ -121,7 +121,6 @@ if am_i_online; then
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Copy over data files - keep the same stucture as -v dataDir/mnt:/mount
-# Copy over data files - keep the same stucture as -v dataDir/mnt:/mount
 if [[ -d "$INSTDIR/dataDir" ]] && [[ ! -f "$DATADIR/.installed" ]]; then
   printf_blue "Copying files to $DATADIR"
   cp -Rf "$INSTDIR/dataDir/." "$DATADIR/"
@@ -142,7 +141,6 @@ else
     __sudo docker stop "$APPNAME" &>/dev/null
     __sudo docker rm -f "$APPNAME" &>/dev/null
   fi
-  printf_cyan "Setting up the __sudo dockercontainer"
   __sudo docker run -d \
     --name="$APPNAME" \
     --hostname "$SERVER_HOST" \
