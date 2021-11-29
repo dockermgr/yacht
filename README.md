@@ -1,11 +1,11 @@
 # Welcome to dockermgr yacht installer 👋
   
-## Web interface for managing __sudo dockercontainers with an emphasis on templating
+## Web interface for managing docker containers with an emphasis on templating
   
 ### Requires scripts to be installed
 
 ```shell
- sudo bash -c "$(curl -LSs <https://github.com/dockermgr/installer/raw/main/install.sh>)"
+ sudo bash -c "$(curl -LSs https://github.com/dockermgr/installer/raw/main/install.sh)"
  dockermgr --config && dockermgr install scripts  
 ```
 
@@ -27,9 +27,7 @@ bash -c "$HOME/.local/share/CasjaysDev/dockermgr/yacht/install.sh"
 
 ```shell
 mkdir -p "$HOME/.local/share/srv/docker/yacht/"
-
-git clone <https://github.com/dockermgr/yacht> "$HOME/.local/share/CasjaysDev/dockermgr/yacht"
-
+git clone https://github.com/dockermgr/yacht "$HOME/.local/share/CasjaysDev/dockermgr/yacht"
 cp -Rfva "$HOME/.local/share/srv/docker/yacht/dataDir/." "$HOME/.local/share/srv/docker/yacht/"
 
 sudo docker run -d \
