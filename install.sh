@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-##@Version           :  202308062214-git
+##@Version           :  202308071111-git
 # @@Author           :  Jason Hempstead
 # @@Contact          :  jason@casjaysdev.com
 # @@License          :  LICENSE.md
 # @@ReadME           :  install.sh --help
 # @@Copyright        :  Copyright: (c) 2023 Jason Hempstead, Casjays Developments
-# @@Created          :  Sunday, Aug 06, 2023 22:14 EDT
+# @@Created          :  Monday, Aug 07, 2023 11:11 EDT
 # @@File             :  install.sh
 # @@Description      :  Container installer script for yacht
 # @@Changelog        :  New script
@@ -27,7 +27,7 @@
 # shellcheck disable=SC2317
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 APPNAME="yacht"
-VERSION="202308062214-git"
+VERSION="202308071111-git"
 REPO_BRANCH="${GIT_REPO_BRANCH:-main}"
 HOME="${USER_HOME:-$HOME}"
 USER="${SUDO_USER:-$USER}"
@@ -281,7 +281,7 @@ HOST_ETC_HOSTS_ENABLED="yes"
 HOST_ETC_HOSTS_INIT_FILE=""
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Mount docker socket - [yes/no] [/var/run/docker.sock]
-DOCKER_SOCKET_ENABLED="yes"
+DOCKER_SOCKET_ENABLED="no"
 DOCKER_SOCKET_MOUNT=""
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Mount docker config - [yes/no] [~/.docker/config.json] [/root/.docker/config.json]
@@ -472,8 +472,12 @@ HOST_CRON_USER="root"
 HOST_CRON_SCHEDULE=""
 HOST_CRON_COMMAND=""
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Containers default username/password
+CONTAINER_DEFAULT_USERNAME="admin@yacht.local"
+CONTAINER_DEFAULT_PASSWORD="pass"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Show post install message
-POST_SHOW_FINISHED_MESSAGE="Default username: admin@yacht.local\nDefault password: pass"
+POST_SHOW_FINISHED_MESSAGE=""
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Run the script if it exists [yes/no]
 DOCKERMGR_ENABLE_INSTALL_SCRIPT="yes"
@@ -2400,6 +2404,11 @@ if [ "$CONTAINER_INSTALLED" = "true" ] || __docker_ps_all -q; then
     if [ -f "$DOCKERMGR_CONFIG_DIR/env/$APPNAME.custom.conf" ]; then
       printf_green "Container variables saved to:           $DOCKERMGR_CONFIG_DIR/env/$APPNAME.custom.conf"
     fi
+    printf '# - - - - - - - - - - - - - - - - - - - - - - - - - -\n'
+  fi
+  if [ -n "$CONTAINER_DEFAULT_USERNAME" ] || [ -n "$CONTAINER_DEFAULT_PASSWORD" ]; then
+    [ -n "$CONTAINER_DEFAULT_USERNAME" ] && printf_cyan "Containers default username is:         $CONTAINER_DEFAULT_USERNAME"
+    [ -n "$CONTAINER_DEFAULT_PASSWORD" ] && printf_cyan "Containers default password is:         $CONTAINER_DEFAULT_PASSWORD"
     printf '# - - - - - - - - - - - - - - - - - - - - - - - - - -\n'
   fi
   if [ -n "$POST_SHOW_FINISHED_MESSAGE" ]; then
