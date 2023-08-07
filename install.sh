@@ -473,7 +473,7 @@ HOST_CRON_SCHEDULE=""
 HOST_CRON_COMMAND=""
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Show post install message
-POST_SHOW_FINISHED_MESSAGE=""
+POST_SHOW_FINISHED_MESSAGE="Default username: admin@yacht.local\nDefault password: pass"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Run the script if it exists [yes/no]
 DOCKERMGR_ENABLE_INSTALL_SCRIPT="yes"
